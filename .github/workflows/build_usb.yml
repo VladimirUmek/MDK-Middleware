@@ -51,10 +51,10 @@ jobs:
         working-directory: ./MDK-Middleware/.ci/USB/
         run: |
           # Create list of used packs - keep pack specification only (remove path/URL)
-          csolution list packs ./Device/Library/Library.csolution.yml   | sed 's/ .*//' >  packs.txt
-          csolution list packs ./Device/Examples/Examples.csolution.yml | sed 's/ .*//' >> packs.txt
-          csolution list packs ./Host/Library/Library.csolution.yml     | sed 's/ .*//' >> packs.txt
-          csolution list packs ./Host/Examples/Examples.csolution.yml   | sed 's/ .*//' >> packs.txt
+          csolution list packs ./Device/Library/Library.csolution.yml   2>/dev/null | sed 's/ .*//' >  packs.txt
+          csolution list packs ./Device/Examples/Examples.csolution.yml 2>/dev/null | sed 's/ .*//' >> packs.txt
+          csolution list packs ./Host/Library/Library.csolution.yml     2>/dev/null | sed 's/ .*//' >> packs.txt
+          csolution list packs ./Host/Examples/Examples.csolution.yml   2>/dev/null | sed 's/ .*//' >> packs.txt
           # Remove MDK-Middleware from the list
           sed -i '/.*MDK-Middleware.*/d' packs.txt
           # Keep only leters, numbers, ':', '@', '.', '_' and '-'
