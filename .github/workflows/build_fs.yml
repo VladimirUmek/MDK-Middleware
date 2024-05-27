@@ -32,7 +32,7 @@ jobs:
       - name: Cache packs
         uses: actions/cache@v4
         with:
-          key: cmsis-packs-${{ hashFiles('**/*.csolution.yml', '**/*.cproject.yml', '**/*.clayer.yml') }}
+          key: cmsis-packs-fs-${{ hashFiles('**/*.csolution.yml', '**/*.cproject.yml', '**/*.clayer.yml') }}
           restore-keys: |
             cmsis-packs-
           path: /home/runner/.cache/arm/packs
