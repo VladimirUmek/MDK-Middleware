@@ -37,7 +37,9 @@ jobs:
       - name: Setup board layer
         working-directory: ./MDK-Middleware/Examples/FileSystem
         run: |
-          sed -i "s/target-types:/&\n    - type: $TARGET_TYPE\n      board: $TARGET_DEVICE\n      variables:\n      - Board-Layer: $TARGET_LAYER/" FileSystem.csolution.yml
+          target_type="- type: $TARGET_TYPE\n      board: $TARGET_DEVICE\n      variables:\n      - Board-Layer: $TARGET_LAYER"
+          echo $target_type
+          sed -i "s/target-types:/&\n    $target_type/" FileSystem.csolution.yml
 
       - name: Cache packs
         uses: actions/cache@v4
