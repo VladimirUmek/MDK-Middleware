@@ -57,21 +57,6 @@ jobs:
           cpackget init https://www.keil.com/pack/index.pidx
           cpackget update-index
 
-      - name: Install required CMSIS packs
-        working-directory: ./MDK-Middleware
-        run: |
-          # Create list of used packs - keep pack specification only (remove path/URL)
-          csolution list packs ./.ci/Library.csolution.yml                    2>/dev/null | sed 's/ .*//' >  packs.txt
-          csolution list packs ./Examples/FileSystem/FileSystem.csolution.yml 2>/dev/null | sed 's/ .*//' >> packs.txt
-          # Remove MDK-Middleware from the list
-          sed -i '/.*MDK-Middleware.*/d' packs.txt
-          # Keep only leters, numbers, ':', '@', '.', '_' and '-'
-          sed -i 's/[^a-zA-Z0-9:@._-]//g' packs.txt
-          # Remove duplicates from the list and create final list
-          awk '!seen[$0]++' packs.txt | tee pack_list.txt
-          # Install required packs
-          cpackget add -a -n -f pack_list.txt
-
       - name: Use local MDK-Middleware pack
         working-directory: ./MDK-Middleware/
         run: |
@@ -87,12 +72,12 @@ jobs:
       - name: Build FileSystem sources
         working-directory: ./MDK-Middleware
         run: |
-          cbuild ./.ci/Library.csolution.yml --update-rte --context FileSystem --toolchain ${{ matrix.compiler }} 2>&1 | tee build_${{ matrix.compiler }}.log || true
+          cbuild ./.ci/Library.csolution.yml --packs --update-rte --context FileSystem --toolchain ${{ matrix.compiler }} 2>&1 | tee build_${{ matrix.compiler }}.log || true
 
       - name: Build FileSystem examples
         working-directory: ./MDK-Middleware/
         run: |
-          cbuild ./Examples/FileSystem/FileSystem.csolution.yml --update-rte --toolchain ${{ matrix.compiler }} 2>&1 | tee -a build_${{ matrix.compiler }}.log || true
+          cbuild ./Examples/FileSystem/FileSystem.csolution.yml --packs  --update-rte --toolchain ${{ matrix.compiler }} 2>&1 | tee -a build_${{ matrix.compiler }}.log || true
 
       - name: Create build summary
         working-directory: ./MDK-Middleware
