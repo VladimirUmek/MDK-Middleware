@@ -17,7 +17,7 @@ concurrency:
 env:
   TARGET_TYPE: CM4
   TARGET_DEVICE: ARMCM4
-  TARGET_LAYER: $SolutionDir()$/../../.ci/Board/Board.clayer.yml
+  TARGET_LAYER: $SolutionDir()$/../../../.ci/Board/Board.clayer.yml
 
 jobs:
   Build:
