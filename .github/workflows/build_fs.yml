@@ -35,9 +35,9 @@ jobs:
           path: ./MDK-Middleware
 
       - name: Setup board layer
-        working-directory: ./MDK-Middleware/Examples/FileSystem
+        working-directory: ./MDK-Middleware
         run: |
-          sed -i "s|target-types:|&\n    - type: $TARGET_TYPE\n      device: $TARGET_DEVICE\n      variables:\n      - Board-Layer: $TARGET_LAYER|" FileSystem.csolution.yml
+          sed -i "s|target-types:|&\n    - type: $TARGET_TYPE\n      device: $TARGET_DEVICE\n      variables:\n      - Board-Layer: $TARGET_LAYER|" ./Examples/FileSystem/FileSystem.csolution.yml
 
       - name: Cache packs
         uses: actions/cache@v4
@@ -77,7 +77,7 @@ jobs:
       - name: Build FileSystem examples
         working-directory: ./MDK-Middleware/
         run: |
-          cbuild ./Examples/FileSystem/FileSystem.csolution.yml --packs  --update-rte --toolchain ${{ matrix.compiler }} 2>&1 | tee -a build_${{ matrix.compiler }}.log || true
+          cbuild ./Examples/FileSystem/FileSystem.csolution.yml --packs --update-rte --toolchain ${{ matrix.compiler }} 2>&1 | tee -a build_${{ matrix.compiler }}.log || true
 
       - name: Create build summary
         working-directory: ./MDK-Middleware
